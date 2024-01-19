@@ -176,7 +176,6 @@ pub fn day5() -> Result<(), Box<dyn Error>> {
                             ret.push(ending);
                         }
 
-
                         (middle, ret)
                     });
 

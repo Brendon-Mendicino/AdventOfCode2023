@@ -255,28 +255,28 @@ fn find_enclosed(map: Vec<Vec<State>>) -> i32 {
             match map[row][col] {
                 State::Mark(pipe) => {
                     match pipe {
-                        Dir::EW => {},
+                        Dir::EW => {}
                         Dir::NS => inside = !inside,
                         Dir::NE => prev_curve = Some(Dir::NE),
                         Dir::SE => prev_curve = Some(Dir::SE),
                         Dir::NW if matches!(prev_curve, Some(Dir::SE)) => {
                             prev_curve = None;
                             inside = !inside;
-                        },
+                        }
                         Dir::NW if matches!(prev_curve, Some(Dir::NE)) => prev_curve = None,
                         Dir::SW if matches!(prev_curve, Some(Dir::NE)) => {
                             prev_curve = None;
                             inside = !inside;
-                        },
+                        }
                         Dir::SW if matches!(prev_curve, Some(Dir::SE)) => prev_curve = None,
                         _ => panic!("{:?}", (pipe, prev_curve, row, col)),
                     }
 
                     continue;
-                },
-                State::Norm(_) => {},
+                }
+                State::Norm(_) => {}
             }
-            
+
             if inside {
                 enclosed += 1;
             }

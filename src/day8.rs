@@ -1,4 +1,4 @@
-use std::{fs::read_to_string, error::Error, collections::HashMap};
+use std::{collections::HashMap, error::Error, fs::read_to_string};
 
 pub fn lcm(nums: &[usize]) -> usize {
     if nums.len() == 1 {
@@ -15,7 +15,6 @@ fn gcd_of_two_numbers(a: usize, b: usize) -> usize {
     }
     gcd_of_two_numbers(b, a % b)
 }
-
 
 pub fn day8() -> Result<(), Box<dyn Error>> {
     // ------------------------------------------
@@ -48,7 +47,7 @@ pub fn day8() -> Result<(), Box<dyn Error>> {
 
             (
                 id.to_string(),
-                vec![l[1..].to_string(), r[..r.len()-1].to_string()]
+                vec![l[1..].to_string(), r[..r.len() - 1].to_string()],
             )
         })
         .collect::<Vec<_>>();
@@ -61,7 +60,7 @@ pub fn day8() -> Result<(), Box<dyn Error>> {
     while nodes[curr_pos].0 != "ZZZ" {
         let new_node = &nodes[curr_pos].1[moves[turn]];
         curr_pos = lookup_table[new_node];
-        
+
         turn = (turn + 1) % moves.len();
         steps += 1;
     }
@@ -98,19 +97,20 @@ pub fn day8() -> Result<(), Box<dyn Error>> {
 
             (
                 id.to_string(),
-                vec![l[1..].to_string(), r[..r.len()-1].to_string()]
+                vec![l[1..].to_string(), r[..r.len() - 1].to_string()],
             )
         })
         .collect::<Vec<_>>();
 
-    let a_ending_nodes = lookup_table.keys()
+    let a_ending_nodes = lookup_table
+        .keys()
         .filter(|key| key.as_bytes()[2] == b'A')
         .map(|s| s.to_string())
         .collect::<Vec<_>>();
 
     let curr_nodes = a_ending_nodes;
     let mut periods = (0..curr_nodes.len()).map(|_| 0).collect::<Vec<_>>();
-    
+
     for index in 0..curr_nodes.len() {
         let mut curr_dir = 0;
         let mut period = 0_usize;

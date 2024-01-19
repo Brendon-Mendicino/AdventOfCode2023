@@ -3,7 +3,7 @@ use std::{error::Error, fs::read_to_string};
 
 pub fn day6() -> Result<(), Box<dyn Error>> {
     // -----------------------------------------------
-    // Part one 
+    // Part one
     // -----------------------------------------------
 
     let races = read_to_string("input")?
@@ -66,7 +66,9 @@ pub fn day6() -> Result<(), Box<dyn Error>> {
         })
         .collect::<Vec<_>>();
 
-    let [duration, distance] = race[..] else { panic!("vec.len() != 2") };
+    let [duration, distance] = race[..] else {
+        panic!("vec.len() != 2")
+    };
     let p = |root| (duration - root) * root - distance;
 
     // Create the second degree equation
@@ -85,8 +87,7 @@ pub fn day6() -> Result<(), Box<dyn Error>> {
         if p(avg) > 0 {
             last = avg;
             max = avg - 1;
-        } 
-        else {
+        } else {
             min = avg + 1;
         }
     }
@@ -103,8 +104,7 @@ pub fn day6() -> Result<(), Box<dyn Error>> {
         if p(avg) > 0 {
             last = avg;
             min = avg + 1;
-        } 
-        else {
+        } else {
             max = avg - 1;
         }
     }

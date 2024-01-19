@@ -1,4 +1,4 @@
-use std::{error::Error, fs::read_to_string, cmp::Ordering};
+use std::{cmp::Ordering, error::Error, fs::read_to_string};
 
 fn char_to_id_part1(ch: char) -> u32 {
     match ch {
@@ -22,7 +22,7 @@ fn char_to_id_part1(ch: char) -> u32 {
 fn hand_score_part1(hand: &[u32]) -> u32 {
     let mut times = (0..=13).map(|id| (id, 0)).collect::<Vec<_>>();
 
-    for &card in hand { 
+    for &card in hand {
         times[card as usize].1 += 1;
     }
 
@@ -62,7 +62,7 @@ fn char_to_id_part2(ch: char) -> u32 {
 fn hand_score_part2(hand: &[u32]) -> u32 {
     let mut times = (0..=13).map(|id| (id, 0)).collect::<Vec<_>>();
 
-    for &card in hand { 
+    for &card in hand {
         times[card as usize].1 += 1;
     }
 
@@ -114,7 +114,9 @@ pub fn day7() -> Result<(), Box<dyn Error>> {
         .map(|line| line.split_once(" ").unwrap())
         .map(|(hand, bid)| {
             (
-                hand.chars().map(|c| char_to_id_part1(c)).collect::<Vec<_>>(),
+                hand.chars()
+                    .map(|c| char_to_id_part1(c))
+                    .collect::<Vec<_>>(),
                 bid.parse::<u32>().unwrap(),
             )
         })
@@ -122,19 +124,12 @@ pub fn day7() -> Result<(), Box<dyn Error>> {
 
     let mut hands = hands
         .into_iter()
-        .map(|(hand, bid)| {
-            (
-                hand_score_part1(&hand),
-                hand,
-                bid
-            )
-        })
+        .map(|(hand, bid)| (hand_score_part1(&hand), hand, bid))
         .collect::<Vec<_>>();
 
-    hands
-        .sort_by(|(score1, hand1, _), (score2, hand2, _)| {
-            cmp_hand((*score1, hand1), (*score2, hand2))
-        });
+    hands.sort_by(|(score1, hand1, _), (score2, hand2, _)| {
+        cmp_hand((*score1, hand1), (*score2, hand2))
+    });
 
     let winnings = hands
         .into_iter()
@@ -145,7 +140,6 @@ pub fn day7() -> Result<(), Box<dyn Error>> {
 
     println!("{}", winnings);
 
-
     // -----------------------------------------------------
     // Part one
     // -----------------------------------------------------
@@ -154,7 +148,9 @@ pub fn day7() -> Result<(), Box<dyn Error>> {
         .map(|line| line.split_once(" ").unwrap())
         .map(|(hand, bid)| {
             (
-                hand.chars().map(|c| char_to_id_part2(c)).collect::<Vec<_>>(),
+                hand.chars()
+                    .map(|c| char_to_id_part2(c))
+                    .collect::<Vec<_>>(),
                 bid.parse::<u32>().unwrap(),
             )
         })
@@ -162,19 +158,12 @@ pub fn day7() -> Result<(), Box<dyn Error>> {
 
     let mut hands = hands
         .into_iter()
-        .map(|(hand, bid)| {
-            (
-                hand_score_part2(&hand),
-                hand,
-                bid
-            )
-        })
+        .map(|(hand, bid)| (hand_score_part2(&hand), hand, bid))
         .collect::<Vec<_>>();
 
-    hands
-        .sort_by(|(score1, hand1, _), (score2, hand2, _)| {
-            cmp_hand((*score1, hand1), (*score2, hand2))
-        });
+    hands.sort_by(|(score1, hand1, _), (score2, hand2, _)| {
+        cmp_hand((*score1, hand1), (*score2, hand2))
+    });
 
     let winnings = hands
         .into_iter()

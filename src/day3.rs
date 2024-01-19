@@ -5,7 +5,7 @@ use std::vec;
 
 #[derive(Debug)]
 struct MaybeGear {
-    num: usize, 
+    num: usize,
     gear_pos: (usize, usize),
 }
 
@@ -158,9 +158,8 @@ pub fn day3() -> Result<(), Box<dyn Error>> {
                 scan_around_number(row, col, len, &matrix)
                     .into_iter()
                     .for_each(|part| parts.push(part));
-
             }
-            
+
             col_range = col + 1 + len..width;
         }
     }
@@ -185,31 +184,30 @@ pub fn day3() -> Result<(), Box<dyn Error>> {
                 scan_for_gears(row, col, len, &matrix)
                     .into_iter()
                     .for_each(|gear| gears.push(gear));
-
             }
-            
+
             col_range = col + 1 + len..width;
         }
     }
 
     // Group gears
     let gears_len = gears.len();
-    let final_ratio = gears.into_iter()
+    let final_ratio = gears
+        .into_iter()
         // Group by '*' position
-        .fold(HashMap::<(usize, usize), Vec<usize>>::with_capacity(gears_len), |mut set, gear| {
-            set.entry(gear.gear_pos)
-                .or_default()
-                .push(gear.num);
+        .fold(
+            HashMap::<(usize, usize), Vec<usize>>::with_capacity(gears_len),
+            |mut set, gear| {
+                set.entry(gear.gear_pos).or_default().push(gear.num);
 
-            set
-        })
+                set
+            },
+        )
         .into_iter()
         // Filter non-coupled gears
-        .filter_map(|(_, gears)| {
-            match gears[..] {
-                [first, second] => Some(first * second),
-                _ => None,
-            }
+        .filter_map(|(_, gears)| match gears[..] {
+            [first, second] => Some(first * second),
+            _ => None,
         })
         .sum::<usize>();
 

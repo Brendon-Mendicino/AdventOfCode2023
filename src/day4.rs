@@ -6,19 +6,16 @@ pub fn day4() -> Result<(), Box<dyn Error>> {
     // ---------------------------------------------
     // Part one
     // ---------------------------------------------
-    
+
     let tot_points = read_to_string("input")?
         .lines()
         // Parse the scratchcards in two lists
         .map(|line| {
-            let (winning, my) = line.split_once(": ")
-                .unwrap()
-                .1
-                .split_once(" | ")
-                .unwrap();
+            let (winning, my) = line.split_once(": ").unwrap().1.split_once(" | ").unwrap();
 
             (
-                winning.split_ascii_whitespace()
+                winning
+                    .split_ascii_whitespace()
                     .into_iter()
                     .map(|n| n.parse::<usize>().unwrap())
                     .collect::<HashSet<_>>(),
@@ -30,9 +27,7 @@ pub fn day4() -> Result<(), Box<dyn Error>> {
         })
         // Convert each scratchcard in points
         .map(|(winning, my)| {
-            let count = my.iter()
-                .filter(|num| winning.contains(num))
-                .count();
+            let count = my.iter().filter(|num| winning.contains(num)).count();
 
             if count == 0 {
                 0
@@ -47,21 +42,17 @@ pub fn day4() -> Result<(), Box<dyn Error>> {
     // ---------------------------------------------
     // Part two
     // ---------------------------------------------
-    
+
     let mut cards = read_to_string("input")?
         .lines()
         // Parse the scratchcards in two lists
         .map(|line| {
-            let (winning, my) = line.split_once(": ")
-                .unwrap()
-                .1
-                .split_once(" | ")
-                .unwrap();
+            let (winning, my) = line.split_once(": ").unwrap().1.split_once(" | ").unwrap();
 
-            
             (
                 1usize,
-                winning.split_ascii_whitespace()
+                winning
+                    .split_ascii_whitespace()
                     .into_iter()
                     .map(|n| n.parse::<usize>().unwrap())
                     .collect::<HashSet<_>>(),
@@ -78,19 +69,15 @@ pub fn day4() -> Result<(), Box<dyn Error>> {
         let (nums, winners, mine) = &cards[id];
 
         let nums = *nums;
-        let winning = mine.iter()
-            .filter(|num| winners.contains(num))
-            .count();
-        
+        let winning = mine.iter().filter(|num| winners.contains(num)).count();
+
         for to_add in id + 1..id + 1 + winning {
             cards[to_add].0 += nums;
         }
     }
 
     // Sum the cards
-    let tot_cards = cards.iter()
-        .map(|c| c.0)
-        .sum::<usize>();
+    let tot_cards = cards.iter().map(|c| c.0).sum::<usize>();
 
     println!("{}", tot_cards);
 
