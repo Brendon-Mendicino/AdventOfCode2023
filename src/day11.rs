@@ -31,8 +31,7 @@ fn get_pairs(map: Vec<Vec<u8>>, scale: i64) -> Vec<(i64, i64)> {
 
     let expand = |vec: Vec<i32>| {
         let first = if vec[0] == 0 { scale } else { 0 };
-        vec
-            .into_iter()
+        vec.into_iter()
             .enumerate()
             .skip(1)
             .fold(vec![first], |mut v, (index, num)| {
@@ -57,7 +56,12 @@ fn get_pairs(map: Vec<Vec<u8>>, scale: i64) -> Vec<(i64, i64)> {
     // Increase the size given by the universe expansion
     pairs
         .into_iter()
-        .map(|(row, col)| (row + row_expansion[row as usize], col + col_expansion[col as usize]))
+        .map(|(row, col)| {
+            (
+                row + row_expansion[row as usize],
+                col + col_expansion[col as usize],
+            )
+        })
         .collect::<Vec<_>>()
 }
 
@@ -65,7 +69,7 @@ fn tot_distance(pairs: Vec<(i64, i64)>) -> i64 {
     let mut tot = 0;
 
     for i in 0..pairs.len() - 1 {
-        for j in (i+1)..pairs.len() {
+        for j in (i + 1)..pairs.len() {
             tot += dst(pairs[i], pairs[j]);
         }
     }
@@ -110,12 +114,12 @@ mod tests {
     #[test]
     fn test_part1() {
         assert_eq!(part1("inputs/11input_test").unwrap(), 374);
-        
+
         assert_eq!(part1("inputs/11input").unwrap(), 9608724);
     }
 
     #[test]
-    fn test_part2() { 
+    fn test_part2() {
         assert_eq!(part2_test("inputs/11input_test").unwrap(), 1030);
 
         assert_eq!(part2("inputs/11input").unwrap(), 904633799472);
